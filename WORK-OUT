@@ -1,0 +1,452 @@
+import { useState } from 'react';
+import { Search, Menu, X } from 'lucide-react';
+import svgPaths from "./imports/svg-xjo72y4qku";
+import imgImage10 from "figma:asset/7206f6eeba84f8a55d1d5658b1de6cdb6a49b79f.png";
+import imgImage12 from "figma:asset/14e0566715a7724c2adfeb1a424fac35bf6b4745.png";
+import imgImage13 from "figma:asset/097018c8acafb83baf215bb5a4c007ee4720851d.png";
+import imgImage14 from "figma:asset/05ee12ea5fe5b78ba95291a7fe816a9a0d7dd880.png";
+import imgRectangle28 from "figma:asset/caa9d0a4c605d18592425cc453559d079bdaf69e.png";
+import imgImage16 from "figma:asset/287eab342b988ca6b5a4fee020e402f82624e0de.png";
+import imgImage17 from "figma:asset/f33359a3f338c3b5156507e81441e4e3a84fe531.png";
+import imgImage18 from "figma:asset/13afb9304b5158ba49e5beae8131fb4af53c0e0e.png";
+import imgImage19 from "figma:asset/f9f3ae34fd3de11b1401a8e02dcfa51f46bac67e.png";
+import imgImage20 from "figma:asset/9cf0754ef2f6a4cdac821f94130fad3ab689e87b.png";
+import imgImage21 from "figma:asset/ad662b3a3cf5614f324b1e6223cbc09b0b0a5daa.png";
+
+interface Workout {
+  id: number;
+  title: string;
+  description: string;
+  duration: string;
+  calories: string;
+  exercises: string;
+  difficulty: string;
+  category: string;
+  equipment: string;
+  image: string;
+  badge?: string;
+}
+
+const workouts: Workout[] = [
+  {
+    id: 1,
+    title: "Full Body Strength",
+    description: "Complete workout for maximum muscle gain",
+    duration: "45 min",
+    calories: "500 cal",
+    exercises: "8 exercises",
+    difficulty: "Dumbbell",
+    category: "Strength",
+    equipment: "Dumbbell",
+    image: imgImage16,
+    badge: "Beginner"
+  },
+  {
+    id: 2,
+    title: "HIIT Cardio Blast",
+    description: "High-intensity intervals for maximum burn",
+    duration: "30 min",
+    calories: "400 cal",
+    exercises: "6 exercises",
+    difficulty: "Bodyweight",
+    category: "Cardio",
+    equipment: "Bodyweight",
+    image: imgImage17,
+    badge: "Advanced"
+  },
+  {
+    id: 3,
+    title: "Morning Yoga Flow",
+    description: "Start your day with flexibility and balance",
+    duration: "25 min",
+    calories: "120 cal",
+    exercises: "10 exercises",
+    difficulty: "Bodyweight",
+    category: "Flexibility",
+    equipment: "Bodyweight",
+    image: imgImage18,
+    badge: "Beginner"
+  },
+  {
+    id: 4,
+    title: "Upper Body Power",
+    description: "Build strength in your chest, shoulders and arms",
+    duration: "40 min",
+    calories: "320 cal",
+    exercises: "7 exercises",
+    difficulty: "Barbell",
+    category: "Strength",
+    equipment: "Barbell",
+    image: imgImage19,
+    badge: "Intermediate"
+  },
+  {
+    id: 5,
+    title: "Core Crusher",
+    description: "Intense abs workout for a stronger core",
+    duration: "30 min",
+    calories: "180 cal",
+    exercises: "6 exercises",
+    difficulty: "Bodyweight",
+    category: "Strength",
+    equipment: "Bodyweight",
+    image: imgImage20,
+    badge: "Intermediate"
+  },
+  {
+    id: 6,
+    title: "Kettlebell Conditioning",
+    description: "Full body conditioning with kettlebell",
+    duration: "35 min",
+    calories: "280 cal",
+    exercises: "9 exercises",
+    difficulty: "Kettlebell",
+    category: "Strength",
+    equipment: "Resistance Band",
+    image: imgImage21,
+    badge: "Advanced"
+  }
+];
+
+export default function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All Workouts');
+  const [selectedEquipment, setSelectedEquipment] = useState('All Equipment');
+
+  const categories = ['All Workouts', 'Strength', 'Cardio', 'Flexibility'];
+  const equipment = ['All Equipment', 'Bodyweight', 'Dumbbell', 'Barbell', 'Resistance Band'];
+
+  const filteredWorkouts = workouts.filter(workout => {
+    const matchesSearch = workout.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         workout.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'All Workouts' || workout.category === selectedCategory;
+    const matchesEquipment = selectedEquipment === 'All Equipment' || workout.equipment === selectedEquipment;
+    
+    return matchesSearch && matchesCategory && matchesEquipment;
+  });
+
+  return (
+    <div className="min-h-screen bg-[#F5F5F5] font-['Poppins',sans-serif]">
+      {/* Header */}
+      <header className="relative">
+        {/* Hero Background */}
+        <div className="relative h-[600px] md:h-[700px] lg:h-[1004px] overflow-hidden">
+          <img 
+            src={imgRectangle28} 
+            alt="" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+          
+          {/* Navigation */}
+          <nav className="relative z-10 px-4 md:px-8 lg:px-[146px] py-6 md:py-8 lg:py-[54px]">
+            <div className="flex items-center justify-between">
+              <h1 className="text-white text-lg md:text-xl lg:text-[22px] font-semibold">
+                Fit Tracker Pro
+              </h1>
+              
+              {/* Desktop Navigation */}
+              <div className="hidden lg:flex items-center gap-6 xl:gap-12">
+                <a href="#" className="px-6 py-1 bg-[#ff4b00] text-white text-[15px] rounded-[5px]">
+                  Home
+                </a>
+                <a href="#" className="text-white text-[15px] hover:text-[#ff4b00] transition-colors">
+                  Workouts
+                </a>
+                <a href="#" className="text-white text-[15px] hover:text-[#ff4b00] transition-colors">
+                  Progress
+                </a>
+                <a href="#" className="text-white text-[15px] hover:text-[#ff4b00] transition-colors">
+                  Programs
+                </a>
+                <a href="#" className="text-white text-[15px] hover:text-[#ff4b00] transition-colors">
+                  Profile
+                </a>
+              </div>
+
+              {/* Desktop Auth Buttons */}
+              <div className="hidden lg:flex items-center gap-4">
+                <button className="px-6 py-1.5 bg-white text-black text-[12px] rounded-[5px] font-semibold hover:bg-gray-100 transition-colors">
+                  Sign In
+                </button>
+                <button className="px-6 py-1.5 bg-[#ff4b00] text-white text-[12px] rounded-[5px] font-semibold hover:bg-[#e64400] transition-colors">
+                  Get Started
+                </button>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden text-white p-2"
+              >
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+              <div className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg p-6 space-y-4">
+                <a href="#" className="block px-6 py-3 bg-[#ff4b00] text-white text-center rounded-[5px]">
+                  Home
+                </a>
+                <a href="#" className="block text-white text-center py-2">Workouts</a>
+                <a href="#" className="block text-white text-center py-2">Progress</a>
+                <a href="#" className="block text-white text-center py-2">Programs</a>
+                <a href="#" className="block text-white text-center py-2">Profile</a>
+                <div className="pt-4 space-y-3 border-t border-white/20">
+                  <button className="w-full px-6 py-3 bg-white text-black rounded-[5px] font-semibold">
+                    Sign In
+                  </button>
+                  <button className="w-full px-6 py-3 bg-[#ff4b00] text-white rounded-[5px] font-semibold">
+                    Get Started
+                  </button>
+                </div>
+              </div>
+            )}
+          </nav>
+
+          {/* Hero Content */}
+          <div className="relative z-10 px-4 md:px-8 lg:px-[135px] mt-12 md:mt-20 lg:mt-32">
+            <h2 className="text-white text-3xl md:text-4xl lg:text-[44px] font-bold mb-4 md:mb-6">
+              Workout Library
+            </h2>
+            <p className="text-white text-base md:text-lg lg:text-[20px] font-semibold max-w-xl mb-8 md:mb-12">
+              Discover and customize workouts tailored to your fitness goals and available equipment.
+            </p>
+
+            {/* Search Bar */}
+            <div className="relative max-w-4xl">
+              <div className="flex items-center bg-white border border-black/25 rounded-[19px] px-4 md:px-6 py-3 md:py-4">
+                <span className="text-xl md:text-2xl text-gray-400 mr-3">|</span>
+                <input
+                  type="text"
+                  placeholder="Search workouts..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 outline-none text-base md:text-lg bg-transparent"
+                />
+                <Search className="text-gray-400 ml-2" size={24} />
+              </div>
+            </div>
+
+            {/* Filters */}
+            <div className="mt-8 md:mt-12 space-y-4 md:space-y-6">
+              {/* Category Filter */}
+              <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                <span className="text-white/90 text-sm md:text-[20px] font-semibold min-w-fit">
+                  Category:
+                </span>
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-4 md:px-6 py-2 rounded-[5px] text-xs md:text-[14px] font-semibold transition-colors ${
+                        selectedCategory === cat
+                          ? 'bg-[#ff4b00] text-white'
+                          : 'bg-white text-black border border-black hover:bg-gray-100'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Equipment Filter */}
+              <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                <span className="text-white/90 text-sm md:text-[20px] font-semibold min-w-fit">
+                  Equipment:
+                </span>
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                  {equipment.map((equip) => (
+                    <button
+                      key={equip}
+                      onClick={() => setSelectedEquipment(equip)}
+                      className={`px-4 md:px-6 py-2 rounded-[5px] text-xs md:text-[14px] font-semibold transition-colors ${
+                        selectedEquipment === equip
+                          ? 'bg-[#ff4b00] text-white'
+                          : 'bg-white text-black border border-black hover:bg-gray-100'
+                      }`}
+                    >
+                      {equip}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Workouts Grid Section */}
+      <main className="px-4 md:px-8 lg:px-12 py-12 md:py-16">
+        <p className="text-gray-700 text-sm md:text-[14px] mb-6 md:mb-8">
+          Showing {filteredWorkouts.length} of {workouts.length} workouts
+        </p>
+
+        {/* Workouts Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 lg:gap-12 max-w-[1800px] mx-auto">
+          {filteredWorkouts.map((workout) => (
+            <div key={workout.id} className="bg-white rounded-[16px] shadow-md overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow">
+              <div className="relative overflow-hidden aspect-[4/3]">
+                <img
+                  src={workout.image}
+                  alt={workout.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                {workout.badge && (
+                  <div className={`absolute top-4 right-4 px-3 py-1.5 text-white text-[11px] rounded-[5px] font-semibold ${
+                    workout.badge === 'Beginner' ? 'bg-[#00D26A]' :
+                    workout.badge === 'Advanced' ? 'bg-[#FF4B00]' :
+                    'bg-[#FFA500]'
+                  }`}>
+                    {workout.badge}
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <h3 className="text-[18px] font-semibold mb-1 leading-tight">{workout.title}</h3>
+                  <p className="text-[12px] opacity-90 leading-snug">{workout.description}</p>
+                </div>
+              </div>
+
+              {workout.id !== 6 && (
+                <div className="p-4">
+                  {/* Info Grid - 2x2 layout */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    {/* Duration */}
+                    <div className="flex items-center gap-2 text-[13px] text-gray-700">
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                      </svg>
+                      <span>{workout.duration}</span>
+                    </div>
+
+                    {/* Exercises */}
+                    <div className="flex items-center gap-2 text-[13px] text-gray-700">
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                      </svg>
+                      <span>{workout.exercises}</span>
+                    </div>
+
+                    {/* Calories */}
+                    <div className="flex items-center gap-2 text-[13px] text-gray-700">
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path d="M12 2c1.5 0 2.7 1.2 3.5 2.5.8 1.3 1.5 3 1.5 4.5 0 3-2.7 5.5-5 8.5-2.3-3-5-5.5-5-8.5 0-1.5.7-3.2 1.5-4.5C9.3 3.2 10.5 2 12 2z"/>
+                      </svg>
+                      <span>{workout.calories}</span>
+                    </div>
+
+                    {/* Equipment */}
+                    <div className="flex items-center gap-2 text-[13px] text-gray-700">
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <circle cx="7" cy="12" r="2"/>
+                        <circle cx="17" cy="12" r="2"/>
+                        <path d="M7 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 14v2a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2"/>
+                      </svg>
+                      <span>{workout.difficulty}</span>
+                    </div>
+                  </div>
+
+                  <button className="w-full bg-[#ff4b00] text-white py-3 rounded-[5px] font-semibold hover:bg-[#e64400] transition-colors text-[14px]">
+                    Start Workout
+                  </button>
+                </div>
+              )}
+
+              {workout.id === 6 && (
+                <div className="p-4">
+                  <button className="w-full bg-[#ff4b00] text-white py-3 rounded-[5px] font-semibold hover:bg-[#e64400] transition-colors text-[14px]">
+                    Start Workout
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {filteredWorkouts.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-lg">No workouts found matching your criteria.</p>
+            <button 
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('All Workouts');
+                setSelectedEquipment('All Equipment');
+              }}
+              className="mt-4 px-6 py-2 bg-[#ff4b00] text-white rounded-[5px] hover:bg-[#e64400] transition-colors"
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-[#0080FF]/92 text-white px-4 md:px-8 lg:px-[113px] py-12 md:py-16 lg:py-20">
+        <div className="max-w-[1800px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+            {/* Brand Section */}
+            <div className="lg:col-span-1">
+              <h2 className="text-2xl md:text-3xl lg:text-[37px] font-bold mb-4 md:mb-6">
+                Fit Tracker Pro
+              </h2>
+              <p className="text-sm md:text-[16px] mb-6 md:mb-8 leading-relaxed">
+                Transform your fitness journey with intelligent workout tracking, personalized programs, and comprehensive progress analytics.
+              </p>
+              <div className="flex items-center gap-3 md:gap-4">
+                <img src={imgImage12} alt="Social" className="w-8 h-8 md:w-10 md:h-10 rounded-full" />
+                <img src={imgImage10} alt="Social" className="w-8 h-8 md:w-10 md:h-10 rounded-full" />
+                <img src={imgImage13} alt="Social" className="w-8 h-8 md:w-10 md:h-10 rounded-full" />
+                <img src={imgImage14} alt="Social" className="w-8 h-8 md:w-10 md:h-10 rounded-full" />
+              </div>
+            </div>
+
+            {/* Product Links */}
+            <div>
+              <h3 className="text-base md:text-[16px] font-medium mb-4 md:mb-6">Product</h3>
+              <ul className="space-y-2 md:space-y-3 text-sm md:text-[14px]">
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Workouts</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Programs</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Progress Tracking</a></li>
+              </ul>
+            </div>
+
+            {/* Company Links */}
+            <div>
+              <h3 className="text-base md:text-[16px] font-medium mb-4 md:mb-6">Company</h3>
+              <ul className="space-y-2 md:space-y-3 text-sm md:text-[14px]">
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Contact</a></li>
+              </ul>
+            </div>
+
+            {/* Support Links */}
+            <div>
+              <h3 className="text-base md:text-[16px] font-medium mb-4 md:mb-6">Support</h3>
+              <ul className="space-y-2 md:space-y-3 text-sm md:text-[14px]">
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-[#ff4b00] transition-colors">Term of Service</a></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Footer */}
+          <div className="pt-8 border-t border-white/20 text-center md:text-left">
+            <p className="text-xs md:text-sm opacity-80">
+              © 2024 Fit Tracker Pro. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
